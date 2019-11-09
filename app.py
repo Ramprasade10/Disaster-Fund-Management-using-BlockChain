@@ -71,6 +71,30 @@ def citizen_rescue():
     # print(donations)
     return render_template('viewDonation.html',donations=donations)
 
+@app.route('/govtView',methods=["POST","GET"])
+def govtView():
+    return render_template('govtView.html')
+
+
+@app.route('/assignFunds', methods=["POST", "GET"])
+def assignFunds():
+    return render_template('govtView.html')
+
+
+@app.route('/displayCreds', methods=["POST", "GET"])
+def displayCreds():
+    return render_template('govtView.html')
+
+
+@app.route('/updateEvent', methods=["POST", "GET"])
+def updateEvent():
+    return render_template('govtView.html')
+
+
+@app.route('/expenditure', methods=["POST", "GET"])
+def expenditure():
+    return render_template('expenditure.html')
+
 def blockhash(values,prev_hash=""):
     concat=""
     for x in values:
