@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Donation Blockchain Visualisation</title>
+    <title>Govt view</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
     <style>
@@ -20,7 +20,7 @@
         /* Float four columns side by side */
         .column {
         float: left;
-        width: 25%;
+        width: 33%;
         padding: 0 10px;
         }
 
@@ -59,28 +59,44 @@
     </style>
   </head>
   <body>
+  
     <div class="testbox">
-        <h1>Donation Blockchain Visualisation</h1>
-        <div class="scrolling-wrapper">
-        {% for i in donations %}
-        
+        <h1>Government View</h1>
+        <br><br><br><br><br><br><br><br>
+
+        <div class="scrolling-wrapper">   
         <div class="row">
             <div class="column">
                 <div class="card">
-                     {% for keys,items in i.items() %}
-                        {% if keys == 'block_hash' or keys=='prev_hash' %}
-                            <p>{{keys}} : {{items[0:25]}}</p>
-                        
-                        {% else %}
-
-                            <p>{{ keys }} : {{ items }}</p>
-
-                        {% endif %}
-                    {% endfor %}
+                     <button class="button">
+                      <img src="static/money.jpeg " alt="Avatar" style="width:100%">
+                      <div class="container">
+                        <h3><b>Assign Funds</b></h3> 
+                      </div>
+                    </button>
                 </div>
             </div>
-            
-        {% endfor %}
+            <div class="column">
+                <div class="card">
+                     <button class="button">
+                      <img src="static/creds.png" alt="Avatar" style="width:100%">
+                      <div class="container">
+                        <h3><b> Display credentials </b></h3> 
+                      </div>
+                    </button>
+                </div>
+            </div>
+            <div class="column">
+                <div class="card">
+                     <button class="button">
+                      <img src="static/update.png" alt="Avatar" style="width:100%">
+                      <div class="container">
+                        <h3><b> Update event </b></h3>  
+                      </div>
+                    </button>
+                </div>
+            </div>
+          
         </div>
         </div>
     </div>

@@ -41,6 +41,11 @@ def viewDonationFunction():
     # print(donations)
     return render_template('viewDonation.html',donations=donations)
 
+@app.route('/govtView',methods=["POST","GET"])
+def govtView():
+    return render_template('govtView.html')
+
+
 def blockhash(values,prev_hash=""):
     concat=""
     for x in values:
