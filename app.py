@@ -34,6 +34,11 @@ def donationFunction():
         block["block_hash"]=block_hash
         with jsonlines.open('static/donation.jsonl', mode='a') as writer:
             writer.write(block)
+            dis={"Olympics":1,"Common wealth":2}
+            item={"food":1,"cloth":2,"water":3,"water":4}
+
+        nn_pred(block["amount"],dis[block["disaster"]],item[block["item"]])
+        sendmail("")
         # print( 'Block<hash: {}, prev_hash: {}, messages: {}, time: {}>'.format(self.hash, self.prev_hash, len(self.messages), self.timestamp))
         return render_template('donation.html')
     return render_template('donation.html')
@@ -65,11 +70,11 @@ def citizen_rescue():
                 print((obj)["block_hash"])
                 prev_hash=(obj)["block_hash"]
     
-    block=
+    # block=
     with jsonlines.open('static/citizen.jsonl', mode='a') as writer:
         writer.write(block)
     # print(donations)
-    return render_template('viewDonation.html',donations=donations)
+    return render_template('citizen_rescue.html',donations=donations)
 
 @app.route('/govtView',methods=["POST","GET"])
 def govtView():
