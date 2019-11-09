@@ -1,5 +1,5 @@
 from flask import Flask, flash, redirect, render_template, request, session, abort,url_for
-import os,donation,jsonlines
+import os,jsonlines
 import matplotlib.pyplot as plt
 import io,smtplib
 import base64,json
@@ -51,14 +51,9 @@ def viewDonationFunction():
         print(reader)
         for obj in reader:
             # print(type(obj))
-            if obj:
-                print((obj)["block_hash"])
-                prev_hash=(obj)["block_hash"]
-
-    with jsonlines.open('static/citizen.jsonl', mode='a') as writer:
-        writer.write(block)
+            donations.append(obj)
     # print(donations)
-    return render_template('citizen_rescue.html',donations=donations)
+    return render_template('viewDonation.html',donations=donations)
 
 @app.route('/citizen_rescue')
 def citizen_rescue():
@@ -141,8 +136,14 @@ def displayCreds():
 
 @app.route('/updateEvent', methods=["POST", "GET"])
 def updateEvent():
-
-    return render_template('updateEvent.html')
+    disasters = []
+    with jsonlines.open('static/disaster.jsonl') as reader:
+        print(reader)
+        for obj in reader:
+            # print(type(obj))
+    # print(donations)
+            disasters.append(obj)
+    return render_template('updateEvent.html',disasters=disasters)
 
 
 @app.route('/expenditure', methods=["POST", "GET"])
@@ -156,7 +157,32 @@ def blockhash(values,prev_hash=""):
     concat+=prev_hash
     print(concat)
     return(sha256_crypt.hash(concat))
+def predict_and_plot():
+    return render_template('govtView.html')
+    filename= 'data.csv'
+    hnames= ['deathtoll','mag','req_fund']
+    dataframe=pd.read_csv(filename,names=hnames)
+    array= dataframe.values
+    dataframe.plot(x ='deathtoll', y='req_fund', kind = 'line')
+    #plt.show()
 
+    #separate array into input and output components
+    x=array[:,0:2]  #input column
+    y=array[:,2]     #output column
+
+    test_data_size=0.1 #hides 33% data from machine so that it will be used for testing
+    #seed=4
+    x_train,x_test,y_train,y_test= train_test_split(x,y,test_size=test_data_size) #,random_state=seed)
+
+    model= LogisticRegression()
+    model.fit(x_train,y_train)
+    r=model.predict([[2089,8.9]])
+    print(r)
+    ra1=[2089]
+    #ra.plot(x ='deathtoll', y='req_fund', kind = 'dotted-line',marker='d')
+    plt.plot(ra1,r,marker='o',markerfacecolor='red',markersize=7,
+            linestyle='dashed',color='blue')
+    plt.show()
 def pred():
     filename= 'data.csv'
     hnames= ['deathtoll','mag','req_fund']

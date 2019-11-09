@@ -106,7 +106,7 @@
         <div class="item">
           <p>Disaster name</p>
           <div>
-            <input type="text" name="event" value="hello" placeholder="Enter Disaster name" disabled/>
+            <input type="text" name="event" value="{{disasters[-1]['event']}}" placeholder="Enter Disaster name" disabled/>
           </div>
         </div>
         <div class="item">
@@ -118,37 +118,37 @@
         <div class="item">
           <p>Location</p>
           <div>
-            <input type="text" name="location" placeholder="Enter Location" />
+            <input type="text" name="location" value="{{disasters[-1]['location']}}" placeholder="Enter Location" disabled/>
           </div>
         </div>
         <div class="item">
           <p>Food</p>
           <div>
-            <input type="number" name="amount" placeholder="Enter Amount" />
+            <input type="number" name="req_food" value="{{disasters[-1]['req_food']}}" placeholder="Enter Amount" disabled/>
           </div>
         </div>
         <div class="item">
           <p>Cloth</p>
           <div>
-            <input type="text" name="accountNumber" placeholder="Enter account number" />
+            <input type="text" name="req_cloth" value="{{disasters[-1]['req_cloth']}}" placeholder="Enter account number" disabled/>
           </div>
         </div>
         <div class="item">
           <p>Water</p>
           <div>
-            <input type="text" name="ifsc" placeholder="Enter IFSC Code" />
+            <input type="text" name="req_water" value="{{disasters[-1]['req_water']}}" placeholder="Enter IFSC Code" disabled/>
           </div>
         </div>
         <div class="item">
           <p>Med</p>
           <div>
-            <input type="text" name="cvv" placeholder="Enter CVV" />
+            <input type="text" name="req_med" value="{{disasters[-1]['req_med']}}" placeholder="Enter CVV" disabled/>
           </div>
         </div>
         <div class="item">
           <p>Death Toll</p>
           <div>
-            <input type="text" name="death_toll" placeholder="Enter Death toll" />
+            <input type="text" name="death_toll" value="{{disasters[-1]['death_toll']}}" placeholder="Enter Death toll" />
           </div>
         </div>
         </div>
