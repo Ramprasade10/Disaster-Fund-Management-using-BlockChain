@@ -16,14 +16,6 @@ def donationFunction():
         timestamp = time.time()
         block["timestamp"]=timestamp
         prev_hash="0"
-        # try:
-        #     with open('static/donation.json', 'r') as fp:
-        #         data = json.load(fp)   
-        #         print(data["prev_hash"])
-        #         prev_hash=data["block_hash"]
-        # except:
-        #     pass
-
         with jsonlines.open('static/donation.jsonl') as reader:
             for obj in reader:
                 # print(type(obj))
@@ -33,22 +25,21 @@ def donationFunction():
         block["prev_hash"]=prev_hash
         block_hash=blockhash(block,prev_hash)
         block["block_hash"]=block_hash
-        # block=message    
-        # file = open("static/donation.json", "a")
-        # file.write(str(block).replace("'", '"'))
-        # file.write("\n")
-        # file.close()
-        # with open('static/donation.json', 'a') as fp:
-        #     json.dump(block, fp)
-        # json = json.dumps(block)
-        # f = open("dict.json","w")
-        # f.write(json)
-        # f.close()
         with jsonlines.open('static/donation.jsonl', mode='a') as writer:
             writer.write(block)
         # print( 'Block<hash: {}, prev_hash: {}, messages: {}, time: {}>'.format(self.hash, self.prev_hash, len(self.messages), self.timestamp))
         return render_template('donation.html')
     return render_template('donation.html')
+
+
+@app.route('/viewDonation')
+def viewDonationFunction():
+    donations= []
+    with jsonlines.open('static/donation.jsonl') as reader:
+        for obj in reader:
+            print(donations.append(obj))
+    # print(donations)
+    return render_template('viewDonation.html',donations=donations)
 
 def blockhash(values,prev_hash=""):
     concat=""
