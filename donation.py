@@ -156,47 +156,45 @@ class InvalidBlockchain(Exception):
 def manager():
 	chain = SimpleChain()
 	block = Block()
-	msg = """
-		Basic implementation of a Blockchain. Changes are inmutable. Be aware.
+	# msg = """
+	# 	Basic implementation of a Blockchain. Changes are inmutable. Be aware.
 
-		Action set:
-			- Enter the candidate name to vote  (1)
-			- Cast your vote    (2)
-			- check vote (3)
-			- Show Block Chain  (4)
-			- validate the chain integrity       (5)
-			- exit the program                   (6)
+	# 	Action set:
+	# 		- Enter the candidate name to vote  (1)
+	# 		- Cast your vote    (2)
+	# 		- check vote (3)
+	# 		- Show Block Chain  (4)
+	# 		- validate the chain integrity       (5)
+	# 		- exit the program                   (6)
 
-		The validate action will kill the program if the integrity if the chain
-		is compromised.
-		"""
+	# 	The validate action will kill the program if the integrity if the chain
+	# 	is compromised.
+	# 	"""
 
-	print(msg)
-	while True:
-		print()
+	# print(msg)
+	# while True:
+	# 	print()
 
-		decide = input("Your action: ")
+		# decide = input("Your action: ")
 
-		if decide == "1":
-			block.add_message(Message(input("Enter your data:")))
-		elif decide == "2":
-			if len(block.messages) > 0:
-				chain.add_block(block)
-				block = Block()
-			else: print("Block is empty, try adding some messages")
-		elif decide == "3":
+		# if decide == "1":
+	
+	block.add_message()
+	if len(block.messages) > 0:
+		chain.add_block(block)
+		block = Block()
+#index blockahin
 			index = int(input("Provide the index: "))
 			if len(chain.chain)>0:
 				try: print(chain.chain[index])
 				except: print("An issue occurred")
-		elif decide == "4":
+#show blockchain use in visualizaing rhe blockchain
 			for b in chain.chain:
 				print(b)
 				print("----------------")
-		elif decide == "5":
+		# elif decide == "5":
 			if chain.validate(): print("Integrity validated.")
-		else:
-			break
+
 
 ############################################################################3
 
