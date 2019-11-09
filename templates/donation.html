@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Donation Form</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <style>
+      html, body {
+      min-height: 100%;
+      }
+      body, div, form, input, select, p { 
+      padding: 0;
+      margin: 0;
+      outline: none;
+      font-family: Roboto, Arial, sans-serif;
+      font-size: 14px;
+      color: #666;
+      line-height: 22px;
+      }
+      h1 {
+      margin: 15px 0;
+      font-weight: 400;
+      }
+      .testbox {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: inherit;
+      padding: 3px;
+      }
+      form {
+      width: 100%;
+      padding: 20px;
+      background: #fff;
+      box-shadow: 0 2px 5px #ccc; 
+      }
+      input, select, textarea {
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      }
+      input:hover, select:hover, textarea:hover {
+      outline: none;
+      border: 1px solid #095484;
+      }
+      input {
+      width: calc(100% - 10px);
+      padding: 5px;
+      }
+      select {
+      width: 100%;
+      padding: 7px 0;
+      background: transparent;
+      }
+      textarea {
+      width: calc(100% - 6px);
+      }
+      .item {
+      position: relative;
+      margin: 10px 0;
+      }
+      input[type="date"]::-webkit-inner-spin-button {
+      display: none;
+      }
+      .item i, input[type="date"]::-webkit-calendar-picker-indicator {
+      position: absolute;
+      font-size: 20px;
+      color: #a9a9a9;
+      }
+      .item i {
+      right: 2%;
+      top: 30px;
+      z-index: 1;
+      }
+      [type="date"]::-webkit-calendar-picker-indicator {
+      right: 1%;
+      z-index: 2;
+      opacity: 0;
+      cursor: pointer;
+      }
+      .btn-block {
+      margin-top: 20px;
+      text-align: center;
+      }
+      button {
+      width: 150px;
+      padding: 10px;
+      border: none;
+      -webkit-border-radius: 5px; 
+      -moz-border-radius: 5px; 
+      border-radius: 5px; 
+      background-color: #095484;
+      font-size: 16px;
+      color: #fff;
+      cursor: pointer;
+      }
+      button:hover {
+      background-color: #0666a3;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="testbox">
+      <form action="/donation" method="POST">
+        <h1>Donation Form</h1>
+        <div class="item">
+          <p>Disaster name</p>
+          <div>
+            <input type="text" name="event" placeholder="Enter Disaster name" />
+          </div>
+        </div>
+        <div class="item">
+          <p>Aadhar</p>
+          <div>
+            <input type="text" name="aadhar" placeholder="Enter Aadhar number" />
+          </div>
+        </div>
+        <div class="item">
+          <p>Amount</p>
+          <div>
+            <input type="number" name="amount" placeholder="Enter Amount" />
+          </div>
+        </div>
+        <div class="item">
+          <p>A/C Number</p>
+          <div>
+            <input type="text" name="accountNumber" placeholder="Enter account number" />
+          </div>
+        </div>
+        <div class="item">
+          <p>IFSC</p>
+          <div>
+            <input type="text" name="ifsc" placeholder="Enter IFSC Code" />
+          </div>
+        </div>
+        <div class="item">
+          <p>CVV</p>
+          <div>
+            <input type="text" name="cvv" placeholder="Enter CVV" />
+          </div>
+        </div>
+        <div class="item">
+          <p>Item</p>
+          <select name="item">
+            <option value="">*Please select*</option>
+            <option value="food">Food</option>
+            <option value="clothes">Clothes</option>
+            <option value="water">Water</option>
+            <option value="med">Med</option>
+            </select>
+        </div>
+        <div class="item">
+        <p>How willing are you to donate again?</p>
+          <div class="item">
+          <select name="redonate">
+            <option value="">*Please select*</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            </select>
+        </div>
+        <div class="btn-block">
+          <input type="submit">
+        </div>
+      </form>
+    </div>
+  </body>
+</html>

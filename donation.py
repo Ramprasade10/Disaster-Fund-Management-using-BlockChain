@@ -57,8 +57,11 @@ class Block:
 	def add_message(self, message):
 		if len(self.messages) > 0:
 			message.link(self.messages[-1])
-		message.seal()
-		message.validate()
+		self.timestamp = time.time()
+		self.hash = self._hash_block()
+		# message.seal()
+		# message.validate()
+
 		self.messages.append(message)
 
 	def link(self, block):
@@ -183,17 +186,17 @@ def manager():
 	if len(block.messages) > 0:
 		chain.add_block(block)
 		block = Block()
-#index blockahin
-			index = int(input("Provide the index: "))
-			if len(chain.chain)>0:
-				try: print(chain.chain[index])
-				except: print("An issue occurred")
+#index blockchain
+	index = int(input("Provide the index: "))
+	if len(chain.chain)>0:
+		try: print(chain.chain[index])
+		except: print("An issue occurred")
 #show blockchain use in visualizaing rhe blockchain
-			for b in chain.chain:
-				print(b)
-				print("----------------")
+	for b in chain.chain:
+		print(b)
+		print("----------------")
 		# elif decide == "5":
-			if chain.validate(): print("Integrity validated.")
+	if chain.validate(): print("Integrity validated.")
 
 
 ############################################################################3

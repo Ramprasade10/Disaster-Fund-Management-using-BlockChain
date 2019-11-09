@@ -1,36 +1,47 @@
 # -*- coding: utf-8 -*-
 from flask import Flask, flash, redirect, render_template, request, session, abort,url_for,json
-import os,citizen
+import os,donation
 import matplotlib.pyplot as plt
 import io
 import base64
+import time
 app = Flask(__name__)
 
-@app.route('/',methods=["post","get"])
-@app.route('/login',methods=["post","get"])
-def login():
-    error=None
+
+
+@app.route('/donation',methods=["POST","GET"])
+def donationFunction():
     if request.method == "POST":
-        if request.form['username']!="1234" or request.form['password'] !="1234":
-            error="Invalid credentials.Please try again"
-        else:
-            return redirect(url_for('vote'))
+        data = request.form.to_dict()
+        data.pop('cvv')
+        print(data)
+        timestamp = time.time()
+        
+        
+#		jsonstring=dumps(dicts)
+#		print(jsonstring)
+        file = open("static/donation.json", "a")
+        file.write(str(data).replace("'", '"'))
+        file.close()
 
-    return render_template('login.html',error=error)
-
-@app.route('/vote',methods=['POST','get'])
-def vote():
-    if request.method == "POST":
-        votes=request.form['vote']
-        simple_chain.doit(votes)
-    else:
-        return render_template('vote.html')
-    return redirect('thanks')
-
-@app.route('/thanks')
-def thanks():
-    return render_template('thanks.html')
-
+        # print( 'Block<hash: {}, prev_hash: {}, messages: {}, time: {}>'.format(self.hash, self.prev_hash, len(self.messages), self.timestamp))
+        return render_template('donation.html')
+    return render_template('donation.html')
+    #index blockchain
+    #     index = int(input("Provide the index: "))
+    #     if len(chain.chain) > 0:
+    #         try:
+    #             print(chain.chain[index])
+    #         except:
+    #             print("An issue occurred")
+    # #show blockchain use in visualizaing rhe blockchain
+    #     for b in chain.chain:
+    #         print(b)
+    #         print("----------------")
+    #         # elif decide == "5":
+    #     if chain.validate():
+    #         print("Integrity validated.")
+    #         return render_template('thanks.html')
 
 @app.route('/lol')
 def showjson():
@@ -55,11 +66,6 @@ def graphs():
     #These coordinates could be stored in DB
     x1 = [0, 1, 2, 3, 4]
     y1 = [10, 30, 40, 5, 50]
-    x2 = [0, 1, 2, 3, 4]
-    y2 = [50, 30, 20, 10, 50]
-    x3 = [0, 1, 2, 3, 4]
-    y3 = [0, 30, 10, 5, 30]
- 
     graph1_url = build_graph(x1,y1);
     graph2_url = build_graph(x2,y2);
     graph3_url = build_graph(x3,y3);
