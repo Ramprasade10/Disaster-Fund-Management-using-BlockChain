@@ -29,7 +29,7 @@ show the blockchain and validate the integrity of the chain.<br><br>
 A flask Server implements the block chain through GUI, provides a login where individuals can vote,
 check for their vote and verify the integrity of the election.
 With the underlying technology it would be impossible to manipulate the votes.
-<br><br> Test Username : 1234 Password : 1234
+<br><br> Test Username : 1234 Password : 1234.
 
 ### Technologies Used 
 ***
