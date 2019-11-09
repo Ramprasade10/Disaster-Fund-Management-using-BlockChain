@@ -21,9 +21,9 @@ from pprint import pprint
 nltk.download('maxent_ne_chunker')
 nltk.download('words')
 iob_tagged = tree2conlltags(cs)
-pprint(iob_tagged)
+# pprint(iob_tagged)
 ne_tree = nltk.ne_chunk(pos_tag(word_tokenize(ex)))
-print(ne_tree)
+# print(ne_tree)
 
 import spacy
 from spacy import displacy
@@ -35,5 +35,9 @@ nlp = spacy.load("en_core_web_sm")
 #nlp = en_core_web_sm.load()
 doc = nlp(u"The Olympics has hit the shores of Mumbai at 12:30pm on 28/09/2019 recording a mass destruction of 25  Gateway of India building collapsed and a death toll of 800 people. Red Cross is summoning volunteers and a relief fund of $1.5 Billion is expected. ")
 # pprint(doc)
-pprint([(X.text, X.label_) for X in doc.ents])
+dis=[(str(X.label_),str(X.text)) for X in doc.ents]
+pprint(dis)
+
+disaster=dict(dis)
+print(disaster)
 #pprint([(X, X.ent_iob_, X.ent_type_) for X in doc])
