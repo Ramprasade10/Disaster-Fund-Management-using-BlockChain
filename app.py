@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 from flask import Flask, flash, redirect, render_template, request, session, abort,url_for,json
-import os,simple_chain
-
+import os,citizen
+import matplotlib.pyplot as plt
+import io
+import base64
 app = Flask(__name__)
 
 @app.route('/',methods=["post","get"])
@@ -38,6 +40,35 @@ def showjson():
     return render_template('showjson.jade', data=data)
 
 
+ 
+def build_graph(x_coordinates, y_coordinates):
+    img = io.BytesIO()
+    plt.plot(x_coordinates, y_coordinates)
+    plt.savefig(img, format='png')
+    img.seek(0)
+    graph_url = base64.b64encode(img.getvalue()).decode()
+    plt.close()
+    return 'data:image/png;base64,{}'.format(graph_url)
+ 
+@app.route('/graphs')
+def graphs():
+    #These coordinates could be stored in DB
+    x1 = [0, 1, 2, 3, 4]
+    y1 = [10, 30, 40, 5, 50]
+    x2 = [0, 1, 2, 3, 4]
+    y2 = [50, 30, 20, 10, 50]
+    x3 = [0, 1, 2, 3, 4]
+    y3 = [0, 30, 10, 5, 30]
+ 
+    graph1_url = build_graph(x1,y1);
+    graph2_url = build_graph(x2,y2);
+    graph3_url = build_graph(x3,y3);
+ 
+    return render_template('graphs.html',
+    graph1=graph1_url,
+    graph2=graph2_url,
+    graph3=graph3_url)
+ 
 if __name__ == "__main__":
     app.secret_key = os.urandom(12)
-    app.run(debug=True,host='127.0.0.1', port=8000)
+    app.run(debug=True,host='0.0.0.0', port=5555)
