@@ -1,9 +1,9 @@
-from flask import Flask, flash, redirect, render_template, request, session, abort,url_for
-import os,donation,jsonlines
+from flask import Flask, flash, redirect, render_template, request, session, abort,url_for,json
+import os,donation
 import matplotlib.pyplot as plt
 import io,smtplib
-import base64,json
-import datetime,time
+import base64
+import datetime
 from passlib.hash import sha256_crypt
 app = Flask(__name__)
 
@@ -13,39 +13,25 @@ def donationFunction():
         block = request.form.to_dict()
         block.pop('cvv')
         print(block)
-        timestamp = time.time()
+        timestamp = datetime.datetime.now()
         block["timestamp"]=timestamp
         prev_hash="0"
-        # try:
-        #     with open('static/donation.json', 'r') as fp:
-        #         data = json.load(fp)   
-        #         print(data["prev_hash"])
-        #         prev_hash=data["block_hash"]
-        # except:
-        #     pass
+        with open('static/donation.json') as myfile:
+            print (list(myfile))
+            print(len(list(myfile)))
 
-        with jsonlines.open('static/donation.jsonl') as reader:
-            for obj in reader:
-                # print(type(obj))
-                if obj:
-                    print((obj)["block_hash"])
-                    prev_hash=(obj)["block_hash"]
+            if len(list(myfile)):
+                print(len(list(myfile)))
+                prev_hash=list(myfile)[-1]["prev_hash"] 
         block["prev_hash"]=prev_hash
         block_hash=blockhash(block,prev_hash)
         block["block_hash"]=block_hash
         # block=message    
-        # file = open("static/donation.json", "a")
-        # file.write(str(block).replace("'", '"'))
+        file = open("static/donation.json", "a")
+        file.write(str(block).replace("'", '"'))
         # file.write("\n")
-        # file.close()
-        # with open('static/donation.json', 'a') as fp:
-        #     json.dump(block, fp)
-        # json = json.dumps(block)
-        # f = open("dict.json","w")
-        # f.write(json)
-        # f.close()
-        with jsonlines.open('static/donation.jsonl', mode='a') as writer:
-            writer.write(block)
+        file.close()
+
         # print( 'Block<hash: {}, prev_hash: {}, messages: {}, time: {}>'.format(self.hash, self.prev_hash, len(self.messages), self.timestamp))
         return render_template('donation.html')
     return render_template('donation.html')
