@@ -65,15 +65,37 @@ def citizen_rescue():
                 print((obj)["block_hash"])
                 prev_hash=(obj)["block_hash"]
     
-    block=
+    # block=
     with jsonlines.open('static/citizen.jsonl', mode='a') as writer:
         writer.write(block)
     # print(donations)
     return render_template('viewDonation.html',donations=donations)
 
+
+@app.route('/login', methods=["POST", "GET"])
+def login():
+    if request.method == "POST":
+        if request.form["username"] == 'admin' and request.form["password"] == "admin":
+            session['user'] = 'admin'
+            return redirect(url_for('govtView'))
+        return render_template('login.html')
+    return render_template('login.html')
+
+
+@app.route('/logout', methods=["POST", "GET"])
+def logout():
+    session.pop('user',None)
+    return redirect(url_for('login'))
+
+
 @app.route('/govtView',methods=["POST","GET"])
 def govtView():
-    return render_template('govtView.html')
+    if session['user'] == 'admin':
+        return render_template('govtView.html')
+    else:
+        message= "Wrong credentials"
+        return render_template('login.html',message=message)
+
 
 
 @app.route('/assignFunds', methods=["POST", "GET"])
@@ -88,7 +110,8 @@ def displayCreds():
 
 @app.route('/updateEvent', methods=["POST", "GET"])
 def updateEvent():
-    return render_template('govtView.html')
+
+    return render_template('updateEvent.html')
 
 
 @app.route('/expenditure', methods=["POST", "GET"])
