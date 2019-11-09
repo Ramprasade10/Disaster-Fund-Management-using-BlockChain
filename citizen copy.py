@@ -91,7 +91,7 @@ class Block:
 	def __repr__(self):
 		dicts = {}
 		keys = ["hash","previoushash","messages","time"]
-		values = [str(self.hash), self.prev_hash, (self.messages), str(self.timestamp)]
+		values = [str(self.hash), self.prev_hash, (self.messages[0].data), str(self.timestamp)]
 
 		j=0;
 		for i in keys:
