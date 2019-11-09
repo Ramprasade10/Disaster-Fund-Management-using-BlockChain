@@ -33,24 +33,24 @@ nlp = spacy.load("en_core_web_sm")
 #import en_core_web_sm
 #nlp= spacy.load('en_core_web_sm')
 #nlp = en_core_web_sm.load()
-doc = nlp(u"The Olympics has hit the shores of Mumbai at 12:30pm on 28/09/2019 recording a mass destruction of 25  Gateway of India building collapsed and a death toll of 800 people. Red Cross is summoning volunteers and a relief fund of $1.5 Billion is expected. ")
+doc = nlp(u"The Olympics has hit the shores of Mumbai at 12:30pm on 28/09/2019 recording a mass destruction of 25  Gateway of India building collapsed and a death toll of 800 people. Red Cross is summoning volunteers and a relief fund of $150000 is expected. ")
 # pprint(doc)
 dis=[(str(X.label_),str(X.text)) for X in doc.ents]
 pprint(dis)
-
 disaster=dict(dis)
-disaster["country"] = disaster.pop("GPE")
-disaster["req_money"] = disaster.pop(old_key)
-disaster["disaster_name"] = disaster.pop(old_key)
-disaster["req_food"] = disaster.pop(old_key)
-disaster["location"] = disaster.pop(old_key)
+disaster["location"] = disaster.pop("GPE")
+disaster["req_money"] = disaster.pop("MONEY")
+disaster["disaster_name"] = disaster.pop("EVENT")
+disaster["req_food"] = 1500
+disaster["req_cloth"] = 1500
+disaster["req_med"] = 1500
+disaster["death_toll"] = 0
+del disaster["CARDINAL"]
+del disaster["ORG"]
+del disaster["DATE"]
+# disaster["location"] = disaster.pop(old_key)
  
-# disaster_name
-#  req_food
-# req_cloth
-#  reqwater
-#   req_med
-# death_toll
-
 print(disaster)
+with jsonlines.open('static/disaster.jsonl', mode='a') as writer:
+  writer.write(disaster)
 #pprint([(X, X.ent_iob_, X.ent_type_) for X in doc])
