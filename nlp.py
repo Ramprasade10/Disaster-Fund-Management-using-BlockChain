@@ -39,5 +39,18 @@ dis=[(str(X.label_),str(X.text)) for X in doc.ents]
 pprint(dis)
 
 disaster=dict(dis)
+disaster["country"] = disaster.pop("GPE")
+disaster["req_money"] = disaster.pop(old_key)
+disaster["disaster_name"] = disaster.pop(old_key)
+disaster["req_food"] = disaster.pop(old_key)
+disaster["location"] = disaster.pop(old_key)
+ 
+# disaster_name
+#  req_food
+# req_cloth
+#  reqwater
+#   req_med
+# death_toll
+
 print(disaster)
 #pprint([(X, X.ent_iob_, X.ent_type_) for X in doc])

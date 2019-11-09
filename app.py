@@ -5,6 +5,13 @@ import io,smtplib
 import base64,json
 import datetime,time
 from passlib.hash import sha256_crypt
+import warnings
+warnings.filterwarnings(action="ignore")
+import pandas as pd
+from sklearn.model_selection import train_test_split  #uses only some part of data & is time saving
+from sklearn.linear_model import  LogisticRegression
+
+
 app = Flask(__name__)
 
 @app.route('/donation',methods=["POST","GET"])
@@ -36,8 +43,31 @@ def donationFunction():
 def viewDonationFunction():
     donations= []
     with jsonlines.open('static/donation.jsonl') as reader:
+        print(reader)
         for obj in reader:
-            print(donations.append(obj))
+            # print(type(obj))
+            if obj:
+                print((obj)["block_hash"])
+                prev_hash=(obj)["block_hash"]
+
+    with jsonlines.open('static/citizen.jsonl', mode='a') as writer:
+        writer.write(block)
+    # print(donations)
+    return render_template('citizen_rescue.html',donations=donations)
+
+@app.route('/citizen_rescue')
+def citizen_rescue():
+    with jsonlines.open('static/donation.jsonl') as reader:
+        print(reader)
+        for obj in reader:
+            # print(type(obj))
+            if obj:
+                print((obj)["block_hash"])
+                prev_hash=(obj)["block_hash"]
+    
+    block=
+    with jsonlines.open('static/citizen.jsonl', mode='a') as writer:
+        writer.write(block)
     # print(donations)
     return render_template('viewDonation.html',donations=donations)
 
@@ -48,6 +78,25 @@ def blockhash(values,prev_hash=""):
     concat+=prev_hash
     print(concat)
     return(sha256_crypt.hash(concat))
+
+def pred():
+    filename= 'data.csv'
+    hnames= ['deathtoll','mag','req_fund']
+    dataframe=pd.read_csv(filename,names=hnames)
+    array= dataframe.values
+
+    #separate array into input and output components
+    x=array[:,0:2]  #input column
+    y=array[:,2]     #output column
+
+    test_data_size=0.1 #hides 33% data from machine so that it will be used for testing
+    #seed=4
+    x_train,x_test,y_train,y_test= train_test_split(x,y,test_size=test_data_size) #,random_state=seed)
+
+    model= LogisticRegression()
+    model.fit(x_train,y_train)
+    r=model.predict([[160,3.7]])
+    print(r)
 
 # sendmail("portalnie@gmail.com","Data Integrity Lost","","")
 def sendmail(to,mail_subject,mail_body,mail_attach,filename=""):
