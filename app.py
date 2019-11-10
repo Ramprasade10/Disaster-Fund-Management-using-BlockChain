@@ -100,7 +100,15 @@ def govtView():
 
 @app.route('/assignFunds', methods=["POST", "GET"])
 def assignFunds():
-    return render_template('govtView.html')
+    disasters = []
+    with jsonlines.open('static/disaster.jsonl') as reader:
+        print(reader)
+        for obj in reader:
+            # print(type(obj))
+            # print(donations)
+            disasters.append(obj)
+        
+    return render_template('assignFunds.html', disasters=disasters)
 
 def predict_and_plot():
     return render_template('govtView.html')
@@ -131,7 +139,14 @@ def predict_and_plot():
     plt.show()
 @app.route('/displayCreds', methods=["POST", "GET"])
 def displayCreds():
-    return render_template('govtView.html')
+    details = []
+    with jsonlines.open('static/govt.jsonl') as reader:
+        print(reader)
+        for obj in reader:
+            # print(type(obj))
+            details.append(obj)
+    # print(donations)
+    return render_template('displayCreds.html', details=details)
 
 
 @app.route('/updateEvent', methods=["POST", "GET"])
