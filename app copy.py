@@ -134,8 +134,8 @@ def assignFunds():
     return render_template('assignFunds.html', disasters=disasters)
 
     
-@app.route('/displayCreds', methods=["POST", "GET"])
-def displayCreds():
+@app.route('/displayDetails', methods=["POST", "GET"])
+def displayDetails():
     details = []
     with jsonlines.open('static/govt.jsonl') as reader:
         print(reader)
@@ -143,7 +143,7 @@ def displayCreds():
             # print(type(obj))
             details.append(obj)
     # print(donations)
-    return render_template('displayCreds.html', details=details)
+    return render_template('displayDetails.html', details=details)
 
 
 @app.route('/updateEvent', methods=["POST", "GET"])

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>View details</title>
+    <title>Expenditure Visualisation</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
     <style>
@@ -60,15 +60,22 @@
   </head>
   <body>
     <div class="testbox">
-        <h1>View details</h1>
+        <h1>Expenditure Blockchain Visualisation</h1>
         <div class="scrolling-wrapper">
-        {% for detail in details %}
+        {% for expenditure in expenditures %}
         
         <div class="row">
             <div class="column">
                 <div class="card">
-                     {% for keys,items in detail.items() %}
-                         <p>{{ keys }} : {{ items }}</p>
+                     {% for keys,items in expenditure.items() %}
+                        {% if keys == 'block_hash' or keys=='prev_hash' %}
+                            <p>{{keys}} : {{items[0:25]}}</p>
+                        
+                        {% else %}
+
+                            <p>{{ keys }} : {{ items }}</p>
+
+                        {% endif %}
                     {% endfor %}
                 </div>
             </div>
