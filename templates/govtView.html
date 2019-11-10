@@ -55,6 +55,18 @@
         flex-wrap: nowrap;
         overflow-x: scroll;
                 }
+        .item {
+        position: relative;
+        margin: 10px 0;
+      }
+      .item i {
+      right: 2%;
+      top: 30px;
+      z-index: 1;
+      }
+      .box{
+        position: relative;
+      }
         }
     </style>
   </head>
@@ -62,8 +74,28 @@
   
     <div class="testbox">
         <h1>Government View</h1>
+       
         <a href="/logout"><h5 style="padding-right:10px">Logout </h5></a>
-        <br><br><br><br><br><br><br><br>
+        <br><br><br><br>
+
+        <form action="/govtView" method = "POST">
+        <div class="box">
+          <h3>Disaster name</h3>
+          <div>
+            <input type="text" name="disaster" placeholder="Enter Disaster name" size="200"/>
+          </div>
+        </div>
+        <br>
+        
+        <div class="box">
+          <div>
+            <input type="submit"/>
+          </div>
+        </div>
+         </form>
+        <br><br><br><br>
+
+
 
         <div class="scrolling-wrapper">   
         <div class="row">
@@ -91,8 +123,6 @@
                     </a>
                 </div>
             </div>
-            </div>
-            <div class="row">
             <div class="column">
                 <div class="card">
                 <a href='/updateEvent'>

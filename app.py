@@ -142,6 +142,10 @@ def logout():
 @app.route('/govtView',methods=["POST","GET"])
 def govtView():
     if session['user'] == 'admin':
+        if request.method=="POST":
+            disasterForNlp = request.form["disaster"]#apply nlp on this
+            print(disasterForNlp)
+            return render_template('govtView.html')
         return render_template('govtView.html')
     else:
         message= "Wrong credentials"
