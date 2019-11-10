@@ -1,6 +1,10 @@
 {"citizen_name":"Ram Prasad","aadhar":"100","statusLiving":"False","email":"ramprasade10@gmail.com"}
 {"citizen_name":"Shithij Rai","aadhar":"101","statusLiving":"False","email":"raishithij1999@gmail.com"}
 {"citizen_name":"Sai Ayachit","aadhar":"102","statusLiving":"False","email":"ayachitsayee@gmail.com"}
+<<<<<<< HEAD
 {"citizen_name": "Ram Prasad", "aadhar": "100", "statusLiving": "True", "email": "ramprasade10@gmail.com"}
 {"citizen_name": "Ram Prasad", "aadhar": "100", "statusLiving": "False", "email": "ramprasade10@gmail.com"}
 {"citizen_name": "Ram Prasad", "aadhar": "100", "statusLiving": "True", "email": "ramprasade10@gmail.com"}
+=======
+{"citizen_name": "Ram Prasad", "aadhar": "100", "statusLiving": "True", "email": "ramprasade10@gmail.com"}
+>>>>>>> 88a3ac582bd09745c9126c5c48711f6a7ed9901a

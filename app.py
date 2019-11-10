@@ -2,6 +2,10 @@ from flask import Flask, flash, redirect, render_template, request, session, abo
 import os,jsonlines
 import matplotlib.pyplot as plt
 import io,smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.mime.base import MIMEBase
+# import encoders
 import subprocess
 import graph
 import base64,json
@@ -108,6 +112,7 @@ def viewDisasters():
 
 @app.route('/citizen_rescue', methods=["POST", "GET"])
 def citizen_rescue():
+    
     if request.method == "POST":
         reader={}
         result = request.form["aadhar"]
@@ -208,10 +213,10 @@ def assignFunds():
 @app.route('/updateEvent', methods=["POST", "GET"])
 def updateEvent():
     disasters = []
-    # with jsonlines.open('static/disaster.jsonl') as reader:   
-    #     print(reader)
-    #     for obj in reader:
-    #         disasters.append(obj)
+    with jsonlines.open('static/disaster.jsonl') as reader:   
+        print(reader)
+        for obj in reader:
+            disasters.append(obj)
     if request.method == "POST":
         
         block = request.form.to_dict()
@@ -229,11 +234,6 @@ def updateEvent():
 
         with jsonlines.open('static/disaster.jsonl', mode='a') as writer:
             writer.write(block)
-
-        with jsonlines.open('static/disaster.jsonl') as reader:
-            print(reader)
-            for obj in reader:
-                disasters.append(obj)
 
         # print( 'Block<hash: {}, prev_hash: {}, messages: {}, time: {}>'.format(self.hash, self.prev_hash, len(self.messages), self.timestamp))
         return render_template('updateEvent.html', disasters=disasters)
@@ -287,47 +287,47 @@ def predict_and_plot():
 
  
 # sendmail("portalnie@gmail.com","Data Integrity Lost","","")
-def sendmail(to,mail_subject,mail_body,mail_attach,filename=""):
-    fromaddr = "portalnie@gmail.com"
-    toaddr = to
-    # instance of MIMEMultipart 
-    msg = MIMEMultipart() 
-    # storing the senders email address   
-    msg['From'] = fromaddr 
-    # storing the receivers email address  
-    msg['To'] = toaddr 
-    # storing the subject  
-    msg['Subject'] = mail_subject
-    # string to store the body of the mail 
-    body = mail_body
-    # attach the body with the msg instance 
-    # open the file to be sent  
-    attachment = mail_attach
-    noattach=1 if attachment else 0
-    if attachment:
-    # To change the payload into encoded form 
-        msg.attach(MIMEText(body, 'plain')) 
-        p = MIMEBase('application', 'octet-stream') 
-        p.set_payload((attachment).read()) 
-    # encode into base64 
-        encoders.encode_base64(p) 
+# def sendmail(to,mail_subject,mail_body,mail_attach,filename=""):
+#     fromaddr = "portalnie@gmail.com"
+#     toaddr = to
+#     # instance of MIMEMultipart 
+#     msg = MIMEMultipart()   
+#     # storing the senders email address   
+#     msg['From'] = fromaddr 
+#     # storing the receivers email address  
+#     msg['To'] = toaddr 
+#     # storing the subject  
+#     msg['Subject'] = mail_subject
+#     # string to store the body of the mail 
+#     body = mail_body
+#     # attach the body with the msg instance 
+#     # open the file to be sent  
+#     attachment = mail_attach
+#     noattach=1 if attachment else 0
+#     if attachment:
+#     # To change the payload into encoded form 
+#         msg.attach(MIMEText(body, 'plain')) 
+#         p = MIMEBase('application', 'octet-stream') 
+#         p.set_payload((attachment).read()) 
+#     # encode into base64 
+#         encoders.encode_base64(p) 
 
-        p.add_header('Content-Disposition', "attachment; filename= %s" % filename)
-    # attach the instance 'p' to instance 'msg' 
-        msg.attach(p) 
-    # creates SMTP session 
-    s = smtplib.SMTP('smtp.gmail.com', 587) 
-    # start TLS for security 
-    s.starttls() 
-    # Authentication, provide account password here
-    s.login(fromaddr, "portalniewelcome") 
-    # Converts the Multipart msg into a string 
-    text = msg.as_string() if noattach else 'Subject: {}\n\n{}'.format(mail_subject,mail_body)
-    #if noattach else mail_body
-    # sending the mail 
-    s.sendmail(fromaddr, toaddr, text) 
-    # terminating the session 
-    s.quit() 
+#         p.add_header('Content-Disposition', "attachment; filename= %s" % filename)
+#     # attach the instance 'p' to instance 'msg' 
+#         msg.attach(p) 
+#     # creates SMTP session 
+#     s = smtplib.SMTP('smtp.gmail.com', 587) 
+#     # start TLS for security 
+#     s.starttls() 
+#     # Authentication, provide account password here
+#     s.login(fromaddr, "portalniewelcome") 
+#     # Converts the Multipart msg into a string 
+#     text = msg.as_string() if noattach else 'Subject: {}\n\n{}'.format(mail_subject,mail_body)
+#     #if noattach else mail_body
+#     # sending the mail 
+#     s.sendmail(fromaddr, toaddr, text) 
+#     # terminating the session 
+#     s.quit() 
 
 
 def build_graph(sections, colors, personname):
