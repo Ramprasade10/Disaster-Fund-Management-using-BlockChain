@@ -23,12 +23,12 @@ def blah():
 
     model= LogisticRegression()
     model.fit(x_train,y_train)
-    r=model.predict([[2089,8.9]])
+    r=model.predict([[675, 6.3]])
         
     #ra.plot(x ='deathtoll', y='req_fund', kind = 'dotted-line',marker='d')
     # plt.plot(int(sys.argv[1]),int(sys.argv[2]),marker='o',markerfacecolor='red',markersize=7,
             # linestyle='dashed',color='blue')
-    plt.plot(3500,45000,marker='o',markerfacecolor='red',markersize=7,
+    plt.plot(5000,r,marker='o',markerfacecolor='red',markersize=7,
             linestyle='dashed',color='blue')
     plt.show()
     #result= model.score(x_test,y_test)  #checks accuracy of algorithm
