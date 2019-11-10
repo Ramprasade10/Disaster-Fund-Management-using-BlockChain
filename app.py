@@ -2,6 +2,10 @@ from flask import Flask, flash, redirect, render_template, request, session, abo
 import os,jsonlines
 import matplotlib.pyplot as plt
 import io,smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.mime.base import MIMEBase
+import encoders
 import subprocess
 import graph
 import base64,json
@@ -288,7 +292,7 @@ def sendmail(to,mail_subject,mail_body,mail_attach,filename=""):
     fromaddr = "portalnie@gmail.com"
     toaddr = to
     # instance of MIMEMultipart 
-    msg = MIMEMultipart() 
+    msg = MIMEMultipart()   
     # storing the senders email address   
     msg['From'] = fromaddr 
     # storing the receivers email address  
