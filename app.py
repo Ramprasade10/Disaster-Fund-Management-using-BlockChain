@@ -78,7 +78,8 @@ def login():
         if request.form["username"] == 'admin' and request.form["password"] == "admin":
             session['user'] = 'admin'
             return redirect(url_for('govtView'))
-        return render_template('login.html')
+        message = "Wrong Creds"
+        return render_template('login.html', message="Wrong Creds")
     return render_template('login.html')
 
 
@@ -152,13 +153,36 @@ def displayCreds():
 @app.route('/updateEvent', methods=["POST", "GET"])
 def updateEvent():
     disasters = []
-    with jsonlines.open('static/disaster.jsonl') as reader:
-        print(reader)
-        for obj in reader:
-            # print(type(obj))
-    # print(donations)
-            disasters.append(obj)
-    return render_template('updateEvent.html',disasters=disasters)
+    # with jsonlines.open('static/disaster.jsonl') as reader:
+    #     print(reader)
+    #     for obj in reader:
+    #         disasters.append(obj)
+    if request.method == "POST":
+        
+        block = request.form.to_dict()
+        print(block)
+        prev_hash = "0"
+        with jsonlines.open('static/disaster.jsonl') as reader:
+            for obj in reader:
+                # print(type(obj))
+                if obj:
+                    print((obj)["block_hash"])
+                    prev_hash = (obj)["block_hash"]
+        block["prev_hash"] = prev_hash
+        block_hash = blockhash(block, prev_hash)
+        block["block_hash"] = block_hash
+        
+        with jsonlines.open('static/disaster.jsonl', mode='a') as writer:
+            writer.write(block)
+
+        with jsonlines.open('static/disaster.jsonl') as reader:
+            print(reader)
+            for obj in reader:
+                disasters.append(obj)
+
+        # print( 'Block<hash: {}, prev_hash: {}, messages: {}, time: {}>'.format(self.hash, self.prev_hash, len(self.messages), self.timestamp))
+        return render_template('updateEvent.html', disasters=disasters)
+    return render_template('updateEvent.html', disasters=disasters)
 
 
 @app.route('/expenditure', methods=["POST", "GET"])
