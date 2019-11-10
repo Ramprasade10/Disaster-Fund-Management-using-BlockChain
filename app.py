@@ -132,11 +132,11 @@ def predict_and_plot():
     r=model.predict([[2089,8.9]])
     print(r)
     ra1=[2089]
-    \
     #ra.plot(x ='deathtoll', y='req_fund', kind = 'dotted-line',marker='d')
     plt.plot(ra1,r,marker='o',markerfacecolor='red',markersize=7,
             linestyle='dashed',color='blue')
     plt.show()
+    
 @app.route('/displayCreds', methods=["POST", "GET"])
 def displayCreds():
     details = []
