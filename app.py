@@ -109,23 +109,24 @@ def viewDisasters():
     # print(donations)
     return render_template('viewDisaster.html', disasters=disasters)
 
-@app.route('/citizen_rescue')
+@app.route('/citizen_rescue', methods=["POST", "GET"])
 def citizen_rescue():
-    with jsonlines.open('static/donation.jsonl') as reader:
-        print(reader)
-        for obj in reader:
-            # print(type(obj))
-            if obj:
-                print((obj)["block_hash"])
-                prev_hash=(obj)["block_hash"]
-    
-    # block=
-    with jsonlines.open('static/citizen.jsonl', mode='a') as writer:
-        writer.write(block)
-    # print(donations)
-    return render_template('citizen_rescue.html',donations=donations)
+    if request.method == "POST":
+        with jsonlines.open('static/citizen.jsonl') as reader:
+            print(reader)
+            for obj in reader:
+                block=obj
+                if obj["aadhar"]==request.form["aadhar"]:
+                        block["statusLiving"]="True" if request.form["status"]=="yes" else "no"
+                        with jsonlines.open('static/citizen.jsonl', mode='a') as writer:
+                            writer.write(block)                
+                # print(type(obj))
 
-@app.route('/', methods=["POST", "GET"])
+        
+    # print(donations)
+    return render_template('citizen_rescue.html')
+
+
 @app.route('/login', methods=["POST", "GET"])
 def login():
     if request.method == "POST":
@@ -160,7 +161,7 @@ def govtView():
 @app.route('/assignFunds', methods=["POST", "GET"])
 def assignFunds():     
     if request.method == "POST":
-        deathtoll=request.form["death_toll"]
+        deathtoll= request.form["death_toll"]
         mag=request.form["mag"]
         filename= 'data.csv'
         hnames= ['deathtoll','mag','req_fund']
@@ -184,8 +185,9 @@ def assignFunds():
         #   linestyle='dashed',color='blue')
         print("enter")
         # p = subprocess.Popen(["python3","graph.py","5000","50000"], stdout=subprocess.PIPE)
-        # subprocess.call('python3","graph.pydeathtoll+' '+r)
-        subprocess.call('python3 graph.py' , shell=True)
+        if deathtoll and r:
+            subprocess.call('python3 graph.py '+ str(deathtoll)+' '+str(r), shell=True)
+        # subprocess.call('python3 graph.py' , shell=True)
         # graph.blah()
         # print p.communicate()
         
@@ -201,9 +203,6 @@ def assignFunds():
     return render_template('assignFunds.html', disasters=disasters)
 
 
-@app.route('/funds', methods=["POST", "GET"])
-def funds():
-        return render_template('funds.html')
 
 
 @app.route('/updateEvent', methods=["POST", "GET"])
@@ -270,7 +269,7 @@ def expenditure():
         return render_template('expenditure.html', expenditures=expenditures)
     return render_template('expenditure.html', expenditures=expenditures)
 
-
+@app.route('/', methods=["POST", "GET"])
 @app.route('/userView', methods=["POST", "GET"])
 def userView():
     return render_template('userView.html')
@@ -331,9 +330,18 @@ def sendmail(to,mail_subject,mail_body,mail_attach,filename=""):
     s.quit() 
 
 
-def build_graph(x_coordinates, y_coordinates):
+def build_graph(sections, colors, personname):
+    
     img = io.BytesIO()
-    plt.plot(x_coordinates, y_coordinates)
+
+    labels='Food','Water','Shelter','Medicine' #anticlockwise nomenclature
+
+
+    plt.pie(sections,labels=labels,colors=colors,startangle=90,explode=(0,0,0,0),autopct='%1.2f%%')
+        # %1 specifies the space between the %sign and the number & %% at the end print the %sign
+    plt.title(personname+' donation distribution',loc="right")
+    # plt.show()
+  
     plt.savefig(img, format='png')
     img.seek(0)
     graph_url = base64.b64encode(img.getvalue()).decode()
@@ -358,11 +366,15 @@ def build_graph_pre(ra1, r):
 @app.route('/graphs')
 def graphs():
     #These coordinates could be stored in DB
-    x1 = [0, 1, 2, 3, 4]
-    y1 = [10, 30, 40, 5, 50]
-    graph1_url = build_graph(x1,y1);
-    graph2_url = build_graph(x2,y2);
-    graph3_url = build_graph(x3,y3);
+    sections1=[20,30,20,50]
+    colors1=['c','g','y','b']
+    sections2=[80,10,40,50]
+    colors2=['c','g','y','b']
+    sections3=[5,15,14,20]
+    colors3=['c','g','y','b']
+    graph1_url = build_graph(sections1,colors1,"Ram Prasad")
+    graph2_url = build_graph(sections2,colors2,"Sai Ayachit")
+    graph3_url = build_graph(sections3,colors3,"Shithij Rai")
  
     return render_template('graphs.html',
     graph1=graph1_url,

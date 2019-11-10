@@ -28,9 +28,10 @@ def blah():
     #ra.plot(x ='deathtoll', y='req_fund', kind = 'dotted-line',marker='d')
     # plt.plot(int(sys.argv[1]),int(sys.argv[2]),marker='o',markerfacecolor='red',markersize=7,
             # linestyle='dashed',color='blue')
-    plt.plot(5000,50000,marker='o',markerfacecolor='red',markersize=7,
+    plt.plot(3500,45000,marker='o',markerfacecolor='red',markersize=7,
             linestyle='dashed',color='blue')
     plt.show()
     #result= model.score(x_test,y_test)  #checks accuracy of algorithm
 
     #print("Accuracy= %f %%"% (result*100))
+blah()
