@@ -50,6 +50,18 @@ def viewDonationFunction():
     # print(donations)
     return render_template('viewDonation.html',donations=donations)
 
+
+@app.route('/viewExpenditure')
+def viewExpenditureFunction():
+    donations = []
+    with jsonlines.open('static/donation.jsonl') as reader:
+        print(reader)
+        for obj in reader:
+            # print(type(obj))
+            donations.append(obj)
+    # print(donations)
+    return render_template('viewDonation.html', donations=donations)
+
 @app.route('/citizen_rescue')
 def citizen_rescue():
     with jsonlines.open('static/donation.jsonl') as reader:
@@ -66,7 +78,7 @@ def citizen_rescue():
     # print(donations)
     return render_template('viewDonation.html',donations=donations)
 
-
+@app.route('/', methods=["POST", "GET"])
 @app.route('/login', methods=["POST", "GET"])
 def login():
     if request.method == "POST":
@@ -140,7 +152,7 @@ def updateEvent():
         block["prev_hash"] = prev_hash
         block_hash = blockhash(block, prev_hash)
         block["block_hash"] = block_hash
-        
+
         with jsonlines.open('static/disaster.jsonl', mode='a') as writer:
             writer.write(block)
 
@@ -157,6 +169,12 @@ def updateEvent():
 @app.route('/expenditure', methods=["POST", "GET"])
 def expenditure():
     return render_template('expenditure.html')
+
+
+@app.route('/userView', methods=["POST", "GET"])
+def userView():
+    return render_template('userView.html')
+
 
 def blockhash(values,prev_hash=""):
     concat=""

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Donation Form</title>
+    <title>Expenditure</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
     <style>
@@ -102,7 +102,7 @@
   <body>
     <div class="testbox">
       <form action="/donation" method="POST">
-        <h1>Donation Form</h1>
+        <h1>Expenditure</h1>
         <div class="item">
           <p>Disaster name</p>
           <div>
@@ -116,55 +116,10 @@
           </div>
         </div>
         <div class="item">
-          <p>Amount</p>
+          <p>Amount Donated</p>
           <div>
-            <input type="number" name="amount" placeholder="Enter Amount" />
+            <input type="number" name="amount_donated" placeholder="Enter Amount Donated" />
           </div>
-        </div>
-        <div class="item">
-          <p>A/C Number</p>
-          <div>
-            <input type="text" name="accountNumber" placeholder="Enter account number" />
-          </div>
-        </div>
-        <div class="item">
-          <p>IFSC</p>
-          <div>
-            <input type="text" name="ifsc" placeholder="Enter IFSC Code" />
-          </div>
-        </div>
-        <div class="item">
-          <p>CVV</p>
-          <div>
-            <input type="text" name="cvv" placeholder="Enter CVV" />
-          </div>
-        </div>
-        <div class="item">
-          <p>Item</p>
-          <select name="item">
-            <option value="">*Please select*</option>
-            <option value="food">Food</option>
-            <option value="clothes">Clothes</option>
-            <option value="water">Water</option>
-            <option value="med">Med</option>
-            </select>
-        </div>
-        <div class="item">
-        <p>How willing are you to donate again?</p>
-          <div class="item">
-          <select name="redonate">
-            <option value="">*Please select*</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-            <option value="9">9</option>
-            <option value="10">10</option>
-            </select>
         </div>
         <div class="btn-block">
           <input type="submit">
