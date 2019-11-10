@@ -105,7 +105,7 @@ def viewDisasters():
     # print(donations)
     return render_template('viewDisaster.html', disasters=disasters)
 
-@app.route('/citizen_rescue')
+@app.route('/citizen_rescue', methods=["POST", "GET"])
 def citizen_rescue():
     if request.method == "POST":
         with jsonlines.open('static/citizen.jsonl') as reader:
@@ -122,7 +122,7 @@ def citizen_rescue():
     # print(donations)
     return render_template('citizen_rescue.html')
 
-@app.route('/', methods=["POST", "GET"])
+
 @app.route('/login', methods=["POST", "GET"])
 def login():
     if request.method == "POST":
@@ -265,7 +265,7 @@ def expenditure():
         return render_template('expenditure.html', expenditures=expenditures)
     return render_template('expenditure.html', expenditures=expenditures)
 
-
+@app.route('/', methods=["POST", "GET"])
 @app.route('/userView', methods=["POST", "GET"])
 def userView():
     return render_template('userView.html')
