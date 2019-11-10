@@ -60,14 +60,50 @@ def viewDonationFunction():
 
 @app.route('/viewExpenditure')
 def viewExpenditureFunction():
-    donations = []
-    with jsonlines.open('static/donation.jsonl') as reader:
+    expenditures = []
+    with jsonlines.open('static/expenditure.jsonl') as reader:
         print(reader)
         for obj in reader:
             # print(type(obj))
-            donations.append(obj)
+            expenditures.append(obj)
     # print(donations)
-    return render_template('viewDonation.html', donations=donations)
+    return render_template('viewExpenditure.html', expenditures=expenditures)
+
+
+@app.route('/viewStatus')
+def viewStatus():
+    statuses = []
+    with jsonlines.open('static/citizen.jsonl') as reader:
+        print(reader)
+        for obj in reader:
+            # print(type(obj))
+            statuses.append(obj)
+    # print(donations)
+    return render_template('viewStatus.html', statuses=statuses)
+
+
+@app.route('/displayDetails', methods=["POST", "GET"])
+def displayDetails():
+    details = []
+    with jsonlines.open('static/govt.jsonl') as reader:
+        print(reader)
+        for obj in reader:
+            # print(type(obj))
+            details.append(obj)
+    # print(donations)
+    return render_template('displayDetails.html', details=details)
+
+
+@app.route('/viewDisasters', methods=["POST", "GET"])
+def viewDisasters():
+    disasters = []
+    with jsonlines.open('static/disaster.jsonl') as reader:
+        print(reader)
+        for obj in reader:
+            # print(type(obj))
+            disasters.append(obj)
+    # print(donations)
+    return render_template('viewDisaster.html', disasters=disasters)
 
 @app.route('/citizen_rescue')
 def citizen_rescue():
@@ -107,6 +143,10 @@ def logout():
 @app.route('/govtView',methods=["POST","GET"])
 def govtView():
     if session['user'] == 'admin':
+        if request.method=="POST":
+            disasterForNlp = request.form["disaster"]#apply nlp on this
+            print(disasterForNlp)
+            return render_template('govtView.html')
         return render_template('govtView.html')
     else:
         message= "Wrong credentials"
@@ -160,22 +200,11 @@ def assignFunds():
 
 
 
-@app.route('/displayCreds', methods=["POST", "GET"])
-def displayCreds():
-    details = []
-    with jsonlines.open('static/govt.jsonl') as reader:
-        print(reader)
-        for obj in reader:
-            # print(type(obj))
-            details.append(obj)
-    # print(donations)
-    return render_template('displayCreds.html', details=details)
-
 
 @app.route('/updateEvent', methods=["POST", "GET"])
 def updateEvent():
     disasters = []
-    # with jsonlines.open('static/disaster.jsonl') as reader:
+    # with jsonlines.open('static/disaster.jsonl') as reader:   
     #     print(reader)
     #     for obj in reader:
     #         disasters.append(obj)
@@ -209,7 +238,32 @@ def updateEvent():
 
 @app.route('/expenditure', methods=["POST", "GET"])
 def expenditure():
-    return render_template('expenditure.html')
+    expenditures = []
+    if request.method == "POST":
+        block = request.form.to_dict()
+        print(block)
+        prev_hash = "0"
+        with jsonlines.open('static/expenditure.jsonl') as reader:
+            for obj in reader:
+                # print(type(obj))
+                if obj:
+                    print((obj)["block_hash"])
+                    prev_hash = (obj)["block_hash"]
+        block["prev_hash"] = prev_hash
+        block_hash = blockhash(block, prev_hash)
+        block["block_hash"] = block_hash
+
+        with jsonlines.open('static/expenditure.jsonl', mode='a') as writer:
+            writer.write(block)
+
+        with jsonlines.open('static/expenditure.jsonl') as reader:
+            print(reader)
+            for obj in reader:
+                expenditures.append(obj)
+
+        # print( 'Block<hash: {}, prev_hash: {}, messages: {}, time: {}>'.format(self.hash, self.prev_hash, len(self.messages), self.timestamp))
+        return render_template('expenditure.html', expenditures=expenditures)
+    return render_template('expenditure.html', expenditures=expenditures)
 
 
 @app.route('/userView', methods=["POST", "GET"])
