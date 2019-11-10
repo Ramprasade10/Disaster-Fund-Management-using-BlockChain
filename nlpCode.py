@@ -3,8 +3,9 @@ from nltk.tokenize import word_tokenize
 from nltk.tag import pos_tag
 nltk.download('punkt')
 nltk.download('averaged_perceptron_tagger')
+import jsonlines
   
-ex = 'The hurricane Laila has hit the shores of Los Angeles,North America at 12:30pm on 28/09/2019 recording a mass destruction of 25 buildings collapsed and a death toll of 800 people. Red Cross is summoning volunteers and a relief fund of $1.5 Billion is expected. '
+ex = 'The 2019 Hurricane Katrina has hit the shores of Mumbai on 28/09/2019 recording a mass destruction of 25 building collapsed and a death toll of 800 people. Red Cross is summoning volunteers and a relief fund of $1.5 Billion is expected. '
 def preprocess(sent):
     sent = nltk.word_tokenize(sent)
     sent = nltk.pos_tag(sent)
@@ -33,14 +34,14 @@ nlp = spacy.load("en_core_web_sm")
 #import en_core_web_sm
 #nlp= spacy.load('en_core_web_sm')
 #nlp = en_core_web_sm.load()
-doc = nlp(u"The Olympics has hit the shores of Mumbai at 12:30pm on 28/09/2019 recording a mass destruction of 25  Gateway of India building collapsed and a death toll of 800 people. Red Cross is summoning volunteers and a relief fund of $150000 is expected. ")
+doc = nlp("The 2019 Hurricane Katrina has hit the shores of Mumbai on 28/09/2019 recording a mass destruction of 25 building collapsed and a death toll of 800 people. Red Cross is summoning volunteers and a relief fund of $1.5 Billion is expected.")
 # pprint(doc)
 dis=[(str(X.label_),str(X.text)) for X in doc.ents]
 pprint(dis)
 disaster=dict(dis)
 disaster["location"] = disaster.pop("GPE")
 disaster["req_money"] = disaster.pop("MONEY")
-disaster["disaster_name"] = disaster.pop("EVENT")
+disaster["event"] = disaster.pop("EVENT")
 disaster["req_food"] = 1500
 disaster["req_cloth"] = 1500
 disaster["req_med"] = 1500

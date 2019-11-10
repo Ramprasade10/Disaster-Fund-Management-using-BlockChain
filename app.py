@@ -12,6 +12,7 @@ warnings.filterwarnings(action="ignore")
 import pandas as pd
 from sklearn.model_selection import train_test_split  #uses only some part of data & is time saving
 from sklearn.linear_model import  LogisticRegression
+import nlpCode
 
 
 app = Flask(__name__)
@@ -109,11 +110,10 @@ def viewDisasters():
 def citizen_rescue():
     if request.method == "POST":
         reader={}
-        with jsonlines.open('static/citizen.jsonl') as rd :
-            reader=rd
-        for obj in reader:
-            
-            if obj["aadhar"]==request.form["aadhar"]:
+        result = request.form["aadhar"]
+        with jsonlines.open('static/citizen.jsonl',mode='r') as reader :        
+            for obj in reader:
+                if obj["aadhar"]==result:
                     obj["statusLiving"]="True" if request.form["status"]=="yes" else "False"
                     writer = jsonlines.open('static/citizen.jsonl', mode='a')
                     writer.write(obj) 
@@ -148,9 +148,9 @@ def logout():
 def govtView():
     if session['user'] == 'admin':
         if request.method=="POST":
-            disasterForNlp = request.form["disaster"]#apply nlp on this
-            print(disasterForNlp)
-            return render_template('govtView.html')
+            dic=nlpCode(request.form["disaster"])
+            
+            return render_template('display.html',dic=dic)
         return render_template('govtView.html')
     else:
         message= "Wrong credentials"
