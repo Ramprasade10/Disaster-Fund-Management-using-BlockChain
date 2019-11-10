@@ -2,6 +2,8 @@ from flask import Flask, flash, redirect, render_template, request, session, abo
 import os,jsonlines
 import matplotlib.pyplot as plt
 import io,smtplib
+import subprocess
+import graph
 import base64,json
 import datetime,time
 from passlib.hash import sha256_crypt
@@ -148,18 +150,11 @@ def govtView():
 
 
 @app.route('/assignFunds', methods=["POST", "GET"])
-def assignFunds():
-    disasters = []
-    with jsonlines.open('static/disaster.jsonl') as reader:
-        print(reader)
-        for obj in reader:
-            # print(type(obj))
-            # print(donations)
-            disasters.append(obj)
-            filename= 'data.csv'
+def assignFunds():     
     if request.method == "POST":
-        deathtoll=request.form["deathtoll"]
+        deathtoll=request.form["death_toll"]
         mag=request.form["mag"]
+        filename= 'data.csv'
         hnames= ['deathtoll','mag','req_fund']
         dataframe=pd.read_csv(filename,names=hnames)
         array= dataframe.values
@@ -176,10 +171,31 @@ def assignFunds():
 
         model= LogisticRegression()
         model.fit(x_train,y_train)
-        r=model.predict([[deathtoll,mag]])
-        graph1_url=build_graph_pre(deathtoll,r)
-        return render_template('funds.html', req=r,graph1=graph1_url)
+        r=model.predict([[int(deathtoll),float(mag)]])
+        # plt.plot(3500,5000,marker='o',markerfacecolor='red',markersize=7,
+        #   linestyle='dashed',color='blue')
+        print("enter")
+        # p = subprocess.Popen(["python3","graph.py","5000","50000"], stdout=subprocess.PIPE)
+        # subprocess.call('python3","graph.pydeathtoll+' '+r)
+        subprocess.call('python3 graph.py' , shell=True)
+        # graph.blah()
+        # print p.communicate()
+        
+        # plt.show()
+    
+    disasters = []
+    with jsonlines.open('static/disaster.jsonl') as reader:
+        print(reader)
+        for obj in reader:
+            # print(type(obj))
+            # print(donations)
+            disasters.append(obj)
     return render_template('assignFunds.html', disasters=disasters)
+
+
+@app.route('/funds', methods=["POST", "GET"])
+def funds():
+        return render_template('funds.html')
 
 
 @app.route('/updateEvent', methods=["POST", "GET"])
@@ -316,10 +332,12 @@ def build_graph(x_coordinates, y_coordinates):
     plt.close()
     return 'data:image/png;base64,{}'.format(graph_url)
 def build_graph_pre(ra1, r):
+    filename= 'data.csv'
     hnames= ['deathtoll','mag','req_fund']
     dataframe=pd.read_csv(filename,names=hnames)
     array= dataframe.values
     dataframe.plot(x ='deathtoll', y='req_fund', kind = 'line')    
+    
     img = io.BytesIO()
     plt.plot(ra1, r,marker='o',markerfacecolor='red',markersize=7,
                 linestyle='dashed',color='blue')
