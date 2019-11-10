@@ -108,14 +108,18 @@ def viewDisasters():
 @app.route('/citizen_rescue', methods=["POST", "GET"])
 def citizen_rescue():
     if request.method == "POST":
-        with jsonlines.open('static/citizen.jsonl') as reader:
-            print(reader)
-            for obj in reader:
-                block=obj
-                if obj["aadhar"]==request.form["aadhar"]:
-                        block["statusLiving"]="True" if request.form["status"]=="yes" else "no"
-                        with jsonlines.open('static/citizen.jsonl', mode='a') as writer:
-                            writer.write(block)                
+        reader={}
+        with jsonlines.open('static/citizen.jsonl') as rd :
+            reader=rd
+        for obj in reader:
+            
+            if obj["aadhar"]==request.form["aadhar"]:
+                    obj["statusLiving"]="True" if request.form["status"]=="yes" else "False"
+                    writer = jsonlines.open('static/citizen.jsonl', mode='a')
+                    writer.write(obj) 
+                    writer.close()
+                    break
+                               
                 # print(type(obj))
 
         
