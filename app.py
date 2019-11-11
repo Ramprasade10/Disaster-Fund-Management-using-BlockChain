@@ -41,9 +41,10 @@ def donationFunction():
         block["block_hash"]=block_hash
         with jsonlines.open('static/donation.jsonl', mode='a') as writer:
             writer.write(block)
-            dis={"Olympics":1,"Common wealth":2}
+
+            dis={"e":1}
             item={"food":1,"clothes":2,"water":3,"med":4}
-            subprocess.call('python3 algo.py '+ str(block["amount"])+' '+str(item[block["item"]])+ ' '+'100', shell=True)
+            subprocess.call('python3 algo.py '+ str(block["amount"])+' '+str(item[block["item"]])+ ' '+block["aadhar"], shell=True)
 
        
         # print( 'Block<hash: {}, prev_hash: {}, messages: {}, time: {}>'.format(self.hash, self.prev_hash, len(self.messages), self.timestamp))
@@ -121,6 +122,7 @@ def citizen_rescue():
             for obj in reader:
                 if obj["aadhar"]==result:
                     obj["statusLiving"]="True" if request.form["status"]=="yes" else "False"
+                    sendmail(obj["email"],"Person has been marked Safe","This message of the disaster relief management system please do not reply to this mail.","","")
                     writer = jsonlines.open('static/citizen.jsonl', mode='a')
                     writer.write(obj) 
                     writer.close()

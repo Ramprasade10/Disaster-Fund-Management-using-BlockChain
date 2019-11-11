@@ -20,7 +20,7 @@ x_train,x_test,y_train,y_test= train_test_split(x,y,test_size=test_data_size) #,
 
 model= LogisticRegression()
 model.fit(x_train,y_train)
-r=model.predict([[int(sys.argv[1]),int(sys.argv[2]),int(sys.argv[3])]])
+r=model.predict([[1000,2,6.9]])
 print(r)
 ra1=[2]
 plt.plot(ra1,r,marker='o',markerfacecolor='red',markersize=7,
